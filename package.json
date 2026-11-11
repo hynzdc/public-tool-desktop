@@ -1,0 +1,87 @@
+{
+  "name": "gongyi-tools-desktop",
+  "version": "1.0.0",
+  "description": "公益工具站桌面版 - Electron + Vue 3",
+  "main": "electron/main.js",
+  "author": "hyn",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -k \"vite\" \"wait-on http://127.0.0.1:5173 && electron .\"",
+    "start": "npm run build:renderer && electron .",
+    "build:renderer": "vite build",
+    "build": "npm run build:renderer && electron-builder",
+    "build:mac": "npm run build:renderer && electron-builder --mac",
+    "build:win": "npm run build:renderer && electron-builder --win",
+    "preview": "vite preview",
+    "website:dev": "vite --config website/vite.config.js",
+    "website:build": "vite build --config website/vite.config.js",
+    "website:preview": "vite preview --config website/vite.config.js --host 127.0.0.1 --port 4177"
+  },
+  "dependencies": {
+    "archiver": "^7.0.1",
+    "archiver-utils": "^5.0.2",
+    "compress-commons": "^7.0.1",
+    "crc32-stream": "^7.0.1",
+    "exceljs": "^4.4.0",
+    "pdf-parse": "^1.1.1",
+    "sharp": "^0.33.5",
+    "xlsx": "^0.18.5",
+    "zip-stream": "^7.0.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "concurrently": "^9.1.2",
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
+    "vite": "^6.0.3",
+    "vue": "^3.5.13",
+    "wait-on": "^8.0.1"
+  },
+  "build": {
+    "appId": "com.hyn.gongyi.tools",
+    "productName": "公益工具站",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "asarUnpack": [
+      "node_modules/sharp/**/*",
+      "node_modules/@img/**/*"
+    ],
+    "afterPack": "./scripts/afterPack.js",
+    "mac": {
+      "category": "public.app-category.utilities",
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "icon": "build/icon.png",
+      "identity": null,
+      "hardenedRuntime": false,
+      "gatekeeperAssess": false,
+      "extendInfo": {
+        "NSHighResolutionCapable": true
+      }
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "build/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "公益工具站-Windows-x64.${ext}"
+    },
+    "dmg": {
+      "artifactName": "公益工具站-macOS.${ext}"
+    }
+  }
+}

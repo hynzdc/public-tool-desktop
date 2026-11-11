@@ -1,0 +1,9 @@
+node_modules/
+dist/
+website/dist/
+release/
+.DS_Store
+*.log
+.idea/
+*.iml
+.vite/
